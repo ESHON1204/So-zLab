@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So‘zLab</title>
+    <style>
+        /* Общие стили для body с единым фоном */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+
+            /* Единый фон */
+            background-image: url('A_digital_vector_illustration_serves_as_the_backgr.png'); /* вставь сюда имя своего файла фона */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Контейнер центра */
+        .container {
+            text-align: center;
+            position: relative;
+            padding: 40px 20px;
+            background-color: rgba(255, 255, 255, 0.85); /* полупрозрачный фон для текста */
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        /* Логотип в уголке */
+        .logo {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 50px; 
+            height: auto;
+        }
+
+        /* Название сайта */
+        h1 {
+            font-size: 48px;
+            margin: 60px 0 10px 0;
+            color: #1a73e8;
+        }
+
+        /* Описание */
+        p {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0 30px 0;
+        }
+
+        /* Кнопка начать */
+        .start-button {
+            background-color: #34a853;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .start-button:hover {
+            background-color: #2c8c45;
+        }
+
+        /* Маленькая кнопка слова */
+        .words-button {
+            margin-top: 15px;
+            background-color: #fbbc05;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .words-button:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Логотип -->
+        <img src="logo.png" alt="So‘zLab Logo" class="logo">
+
+        <!-- Название и описание -->
+        <h1>So‘zLab</h1>
+        <p>Inglizcha so‘zlarni testlar va mashqlar orqali o‘rganing.</p>
+
+        <!-- Кнопки -->
+       <button class="start-button" onclick="window.location.href='start.html'">Boshlash 🚀</button>
+        <button class="words-button" onclick="window.location.href='words.html'">So‘zlar ro‘yxati</button>
+
+
+    </div>
+
+</body>
+</html>
+<script>

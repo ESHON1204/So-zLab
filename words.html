@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So‘zLab - Saqlangan so‘zlar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f9fc;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .top-search {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .top-search input {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 80%;
+        }
+
+        .word-item {
+            background: white;
+            margin: 10px auto;
+            padding: 10px 15px;
+            border-radius: 8px;
+            max-width: 400px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #1a73e8;
+            color: white;
+            cursor: pointer;
+        }
+
+        #searchResults {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Saqlangan so‘zlar</h1>
+
+<!-- Поиск сверху -->
+<div class="top-search">
+    <input type="text" id="searchSaved" placeholder="Qidirish..." oninput="searchSavedWords()">
+</div>
+
+<!-- Результаты поиска -->
+<div id="searchResults"></div>
+
+<!-- Кнопка возврата -->
+<button class="back-btn" onclick="window.location.href='start.html'">Ortga</button>
+
+<script>
+    const wordListDiv = document.getElementById('searchResults');
+
+    // Функция поиска по сохранённым словам
+    function searchSavedWords() {
+        const query = document.getElementById('searchSaved').value.toLowerCase().trim();
+        const savedWords = JSON.parse(localStorage.getItem('myWords')) || [];
+
+        if (!query) {
+            wordListDiv.innerHTML = ''; // Очистка результатов, если поле пустое
+            return;
+        }
+
+        const filtered = savedWords.filter(word => 
+            word.eng.toLowerCase().includes(query) || word.uz.toLowerCase().includes(query)
+        );
+
+        if (filtered.length === 0) {
+            wordListDiv.innerHTML = '<p style="text-align:center;">So‘z topilmadi</p>';
+            return;
+        }
+
+        wordListDiv.innerHTML = filtered.map(word => 
+            `<div class="word-item">${word.eng} — ${word.uz}</div>`
+        ).join('');
+    }
+
+    // При загрузке страницы отображаем все сохранённые слова
+    function displayAllSavedWords() {
+        const savedWords = JSON.parse(localStorage.getItem('myWords')) || [];
+        if (savedWords.length === 0) {
+            wordListDiv.innerHTML = '<p style="text-align:center;">Hali so‘z qo‘shilmagan</p>';
+            return;
+        }
+        wordListDiv.innerHTML = savedWords.map(word => 
+            `<div class="word-item">${word.eng} — ${word.uz}</div>`
+        ).join('');
+    }
+
+    displayAllSavedWords();
+</script>
+
+</body>
+</html>

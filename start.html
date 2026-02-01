@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>So‘zLab - Start</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+        background-image: url('A_digital_vector_illustration_serves_as_the_backgr.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .logo {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: 50px;
+    }
+
+    .top-bar {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+    }
+
+    .search-input {
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+    .add-btn {
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: none;
+        background-color: #34a853;
+        color: white;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .container {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        width: 90%;
+        max-width: 500px;
+    }
+
+    .word-display {
+        font-size: 36px;
+        color: #1a73e8;
+        margin: 20px 0;
+        font-weight: bold;
+    }
+
+    .translate {
+        font-size: 22px;
+        color: #34a853;
+        margin-top: 10px;
+        display: none;
+    }
+
+    .action-btn {
+        margin: 10px;
+        padding: 12px 25px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        background-color: #fbbc05;
+        color: white;
+    }
+
+    .list-btn {
+        margin-top: 15px;
+        background-color: #1a73e8;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<img src="logo.png" class="logo">
+
+<div class="top-bar">
+    <input type="text" id="searchWord" class="search-input" placeholder="So‘z qidirish...">
+    <button class="add-btn" onclick="addWord()">Qo‘shish</button>
+</div>
+
+<div class="container">
+    <h1>So‘zni o‘rganamiz</h1>
+
+    <div class="word-display" id="engWord">hello</div>
+    <div class="translate" id="uzWord">salom</div>
+
+    <button class="action-btn" onclick="showTranslation()">Tarjimasini ko‘rsat</button>
+    <button class="action-btn" onclick="nextWord()">Keyingi so‘z</button>
+
+    <br>
+    <button class="list-btn" onclick="window.location.href='words.html'">So‘zlar ro‘yxati 📚</button>
+</div>
+
+<script>
+    // Словарь A1/A2 прямо в коде
+    const dictionary = {
+        "about": "haqida",
+        "above": "ustida",
+        "action": "harakat",
+        "activity": "faoliyat",
+        "actor": "aktyor",
+        "add": "qo‘shmoq",
+        "afraid": "qo‘rqqan",
+        "after": "keyin",
+        "again": "yana",
+        "age": "yosh",
+        "air": "havo",
+        "all": "hamma",
+        "also": "shuningdek",
+        "always": "har doim",
+        "am": "menman",
+        "animal": "hayvon",
+        "answer": "javob",
+        "any": "har qanday",
+        "area": "hudud",
+        "arm": "qol",
+        "around": "atrofida",
+        "art": "san’at",
+        "ask": "so‘ramoq",
+        "at": "da",
+        "attention": "diqqat",
+        "aunt": "xola",
+        "away": "yiroq",
+        "baby": "chaqaloq",
+        "back": "orqa",
+        "bad": "yomon",
+        "bag": "sumka",
+        "ball": "to‘p",
+        "bank": "bank",
+        "bar": "bar",
+        "base": "asos",
+        "basic": "asosiy",
+        "basket": "savatcha",
+        "be": "bo‘lmoq",
+        "beautiful": "go‘zal",
+        "because": "chunki",
+        "become": "bo‘lib qolmoq",
+        "bed": "karavat",
+        "before": "oldin",
+        "begin": "boshlamoq",
+        "behind": "orqasida",
+        "believe": "ishonmoq",
+        "below": "quyida",
+        "best": "eng yaxshi",
+        "better": "yaxshiroq",
+        "between": "o‘rtasida",
+        "big": "katta",
+        "bird": "qush",
+        "birthday": "tug‘ilgan kun",
+        "black": "qora",
+        "blue": "ko‘k",
+        "board": "taxta",
+        "body": "tana",
+        "bookstore": "kitob do‘koni",
+        "both": "ikkalasi",
+        "boy": "o‘g‘il bola",
+        "bread": "non",
+        "break": "tanaffus",
+        "bring": "olib kelmoq",
+        "brother": "aka",
+        "brown": "jigar rang",
+        "build": "qurmoq",
+        "bus": "avtobus",
+        "business": "biznes",
+        "buy": "sotib olmoq",
+        "by": "tomonidan",
+        "call": "chaqirmoq",
+        "camera": "kamera",
+        "can": "qila olmoq",
+        "capital": "poytaxt",
+        "carpet": "gilam",
+        "carry": "tashimoq",
+        "center": "markaz",
+        "chair": "stul",
+        "change": "o‘zgartirmoq",
+        "cheap": "arzon",
+        "choose": "tanlamoq",
+        "city": "shahar",
+        "class": "sinf",
+        "classroom": "sinfxona",
+        "clean": "toza",
+        "close": "yaqin",
+        "clothes": "kiyim",
+        "coffee": "qahva",
+        "cold": "sovuq",
+        "come": "kelmoq",
+        "common": "umumiy",
+        "company": "kompaniya",
+        "complete": "to‘liq",
+        "computer": "kompyuter",
+        "cook": "pishirmoq",
+        "cool": "salqin",
+        "corner": "burchak",
+        "correct": "to‘g‘ri",
+        "cost": "narx",
+        "country": "davlat",
+        "course": "kurs",
+        "cover": "qoplamoq",
+        "create": "yaratmoq",
+        "culture": "madaniyat",
+        "cup": "stakan",
+        "dad": "ota",
+        "dance": "raqs",
+        "danger": "xavf",
+        "dark": "qorong‘i",
+        "day": "kun",
+        "dead": "o‘lik",
+        "dear": "aziz",
+        "decide": "qaror qilmoq",
+        "desk": "stol",
+        "difficult": "qiyin",
+        "direction": "yo‘nalish",
+        "dirty": "iflos",
+        "discover": "kashf qilmoq",
+        "do": "qilmoq",
+        "doctor": "shifokor",
+        "door": "eshik",
+        "down": "pastga",
+        "draw": "chizmoq",
+        "dress": "ko‘ylak",
+        "drink": "ichmoq",
+        "drive": "haydamoq",
+        "drop": "tushmoq",
+        "dry": "quruq",
+        "during": "davrida",
+        "each": "har bir",
+        "ear": "quloq",
+        "early": "erta",
+        "earth": "yer",
+        "east": "sharq",
+        "easy": "oson",
+        "eat": "yemoq",
+        "education": "ta’lim",
+        "effect": "ta’sir",
+        "eight": "sakkiz",
+        "either": "yoki",
+        "eleven": "o‘n bir",
+        "else": "boshqa",
+        "empty": "bo‘sh",
+        "end": "oxir",
+        "enjoy": "yoqmoq",
+        "enough": "yetarli",
+        "enter": "kirish",
+        "equal": "teng",
+        "even": "hatto",
+        "ever": "hech qachon",
+        "every": "har",
+        "everyone": "har bir kishi",
+        "everything": "hamma narsa",
+        "example": "misol",
+        "excited": "hayajonli",
+        "exercise": "mashq",
+        "expect": "kutmoq",
+        "expensive": "qimmat",
+        "eye": "ko‘z",
+        "face": "yuz",
+        "fact": "haqiqat",
+        "far": "uzoq",
+        "farm": "ferma",
+        "fast": "tez",
+        "father": "ota",
+        "feel": "his qilmoq",
+        "few": "bir nechta",
+        "find": "topmoq",
+        "fine": "yaxshi",
+        "finger": "barmoq",
+        "finish": "tugatmoq",
+        "fire": "olov",
+        "first": "birinchi",
+        "five": "besh",
+        "floor": "qavat",
+        "flower": "gul",
+        "follow": "ergashmoq",
+        "foot": "oyoq",
+        "for": "uchun",
+        "forget": "unutmoq",
+        "form": "shakl",
+        "four": "to‘rt",
+        "from": "dan",
+        "front": "oldida",
+        "full": "to‘liq",
+        "fun": "qiziqarli",
+        "future": "kelajak",
+        "game": "o‘yin",
+        "garden": "bog‘",
+        "get": "olmoq",
+        "girl": "qiz",
+        "give": "bermoq",
+        "go": "bor/moq",
+        "good": "yaxshi",
+        "green": "yashil",
+        "ground": "yer",
+        "group": "guruh",
+        "grow": "o‘smoq",
+        "guess": "taxmin qilmoq",
+        "gun": "qurol",
+        "gym": "sport zali",
+        "hair": "soch",
+        "half": "yarim",
+        "hand": "qo‘l",
+        "hang": "osmoq",
+        "happy": "baxtli",
+        "hard": "qiyin",
+        "has": "bor",
+        "hat": "shapka",
+        "have": "ega bo‘lmoq",
+        "he": "u",
+        "head": "bosh",
+        "health": "sog‘liq",
+        "hear": "eshitmoq",
+        "heart": "yurak",
+        "heavy": "og‘ir",
+        "help": "yordam",
+        "her": "uning",
+        "here": "bu yer",
+        "hi": "salom",
+        "high": "baland",
+        "him": "uni",
+        "his": "uning",
+        "history": "tarix",
+        "hit": "urmoq",
+        "hold": "ushlamoq",
+        "holiday": "ta’til",
+        "home": "uy",
+        "hope": "umid qilmoq",
+        "hot": "issiq",
+        "hour": "soat",
+        "house": "uy",
+        "how": "qanday",
+        "hundred": "yuz",
+        "hungry": "och",
+        "idea": "g‘oya",
+        "important": "muqim",
+        "inch": "dyuym",
+        "information": "ma’lumot",
+        "inside": "ichida",
+        "interest": "qiziqish",
+        "interesting": "qiziqarli",
+        "into": "ichiga",
+        "is": "bo‘lmoq",
+        "it": "bu",
+        "job": "ish",
+        "join": "qo‘shilmoq",
+        "juice": "sharbat",
+        "jump": "sakramoq",
+        "just": "faqat",
+        "keep": "saqlamoq",
+        "key": "kalit",
+        "kind": "mehribon",
+        "king": "qirol",
+        "kitchen": "oshxona",
+        "know": "bilmoq"
+    };
+
+    let words = JSON.parse(localStorage.getItem("myWords")) || [];
+
+    function getRandomWord() {
+        if (words.length === 0) {
+            document.getElementById("engWord").textContent = "So‘z yo‘q";
+            document.getElementById("uzWord").style.display = "none";
+            return;
+        }
+        const randomIndex = Math.floor(Math.random() * words.length);
+        const word = words[randomIndex];
+        document.getElementById("engWord").textContent = word.eng;
+        document.getElementById("uzWord").textContent = word.uz;
+        document.getElementById("uzWord").style.display = "none";
+    }
+
+    function showTranslation() {
+        document.getElementById("uzWord").style.display = "block";
+    }
+
+    function nextWord() {
+        getRandomWord();
+    }
+
+    function addWord() {
+        const input = document.getElementById("searchWord").value.toLowerCase().trim();
+        if (!input) return;
+
+        if (dictionary[input]) {
+            const newWord = { eng: input, uz: dictionary[input] };
+            words.push(newWord);
+            localStorage.setItem("myWords", JSON.stringify(words));
+            alert("So‘z qo‘shildi!");
+            getRandomWord();
+        } else {
+            alert("Bu so‘z lug‘atda topilmadi");
+        }
+
+        document.getElementById("searchWord").value = "";
+    }
+
+    // Показать первое слово при загрузке
+    getRandomWord();
+</script>
+
+</body>
+</html>
