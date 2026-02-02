@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>So‘zLab - Start</title>
+
 <style>
     body {
         margin: 0;
@@ -12,12 +13,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        overflow: hidden;
+        background: #f7f9fc;
         position: relative;
-        background-image: url('A_digital_vector_illustration_serves_as_the_backgr.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+    }
+
+    body.dark {
+        background: #121212;
+        color: white;
     }
 
     .logo {
@@ -31,12 +33,21 @@
         position: absolute;
         top: 15px;
         right: 20px;
+        display: flex;
+        gap: 6px;
+        align-items: center;
     }
 
     .search-input {
         padding: 8px 12px;
         border-radius: 8px;
         border: 1px solid #ccc;
+    }
+
+    body.dark .search-input {
+        background: #2a2a2a;
+        color: white;
+        border: 1px solid #555;
     }
 
     .add-btn {
@@ -46,17 +57,26 @@
         background-color: #34a853;
         color: white;
         cursor: pointer;
-        margin-left: 5px;
+    }
+
+    .theme-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
     }
 
     .container {
         text-align: center;
-        background: rgba(255, 255, 255, 0.85);
+        background: white;
         padding: 30px;
         border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         width: 90%;
         max-width: 500px;
+    }
+
+    body.dark .container {
+        background: #1f1f1f;
     }
 
     .word-display {
@@ -66,22 +86,28 @@
         font-weight: bold;
     }
 
+    body.dark .word-display {
+        color: white;
+    }
+
     .translate {
         font-size: 22px;
         color: #34a853;
-        margin-top: 10px;
         display: none;
     }
 
     .action-btn {
         margin: 10px;
         padding: 12px 25px;
-        font-size: 16px;
         border-radius: 8px;
         border: none;
         cursor: pointer;
         background-color: #fbbc05;
         color: white;
+    }
+
+    body.dark .action-btn {
+        background: #333;
     }
 
     .list-btn {
@@ -95,6 +121,7 @@
     }
 </style>
 </head>
+
 <body>
 
 <img src="logo.png" class="logo">
@@ -102,24 +129,27 @@
 <div class="top-bar">
     <input type="text" id="searchWord" class="search-input" placeholder="So‘z qidirish...">
     <button class="add-btn" onclick="addWord()">Qo‘shish</button>
+    <button id="themeToggle" class="theme-btn">🌙</button>
 </div>
 
 <div class="container">
     <h1>So‘zni o‘rganamiz</h1>
 
-    <div class="word-display" id="engWord">hello</div>
-    <div class="translate" id="uzWord">salom</div>
+    <div class="word-display" id="engWord">So‘z yo‘q</div>
+    <div class="translate" id="uzWord"></div>
 
     <button class="action-btn" onclick="showTranslation()">Tarjimasini ko‘rsat</button>
     <button class="action-btn" onclick="nextWord()">Keyingi so‘z</button>
 
     <br>
-    <button class="list-btn" onclick="window.location.href='words.html'">So‘zlar ro‘yxati 📚</button>
+    <button class="list-btn" onclick="window.location.href='words.html'">
+        So‘zlar ro‘yxati 📚
+    </button>
 </div>
 
 <script>
-    // Словарь A1/A2 прямо в коде
-const word = {
+/* ===== СЛОВАРЬ ===== */
+const dictionary = {
   "above": "ustida",
   "airport": "aeroport",
   "armchair": "kreslo",
@@ -200,53 +230,86 @@ const word = {
   "window": "deraza"
 };
 
+/* ===== ДАННЫЕ ===== */
+let words = JSON.parse(localStorage.getItem("myWords")) || [];
+let currentIndex = 0;
 
-    let words = JSON.parse(localStorage.getItem("myWords")) || [];
+const engWord = document.getElementById("engWord");
+const uzWord = document.getElementById("uzWord");
 
-    function getRandomWord() {
-        if (words.length === 0) {
-            document.getElementById("engWord").textContent = "So‘z yo‘q";
-            document.getElementById("uzWord").style.display = "none";
-            return;
-        }
-        const randomIndex = Math.floor(Math.random() * words.length);
-        const word = words[randomIndex];
-        document.getElementById("engWord").textContent = word.eng;
-        document.getElementById("uzWord").textContent = word.uz;
-        document.getElementById("uzWord").style.display = "none";
+/* ===== ПОКАЗ СЛОВА ===== */
+function showCurrentWord() {
+    if (words.length === 0) {
+        engWord.textContent = "So‘z yo‘q";
+        uzWord.style.display = "none";
+        return;
+    }
+    const w = words[currentIndex];
+    engWord.textContent = w.eng;
+    uzWord.textContent = w.uz;
+    uzWord.style.display = "none";
+}
+
+/* ===== СЛЕДУЮЩЕЕ СЛОВО (ТОЛЬКО КНОПКА) ===== */
+function nextWord() {
+    if (words.length === 0) return;
+    currentIndex = (currentIndex + 1) % words.length;
+    showCurrentWord();
+}
+
+/* ===== ПЕРЕВОД ===== */
+function showTranslation() {
+    uzWord.style.display = "block";
+}
+
+/* ===== ДОБАВЛЕНИЕ СЛОВА ===== */
+function addWord() {
+    const input = document.getElementById("searchWord").value.toLowerCase().trim();
+    if (!input) return;
+
+    if (words.some(w => w.eng === input)) {
+        alert("Bu so‘z allaqachon bor");
+        return;
     }
 
-    function showTranslation() {
-        document.getElementById("uzWord").style.display = "block";
+    if (dictionary[input]) {
+        words.push({ eng: input, uz: dictionary[input] });
+        localStorage.setItem("myWords", JSON.stringify(words));
+        currentIndex = words.length - 1;
+        showCurrentWord();
+    } else {
+        alert("Bu so‘z lug‘atda yo‘q");
     }
 
-    function nextWord() {
-        getRandomWord();
+    document.getElementById("searchWord").value = "";
+}
+
+/* ===== НОЧНОЙ РЕЖИМ ===== */
+const themeToggle = document.getElementById("themeToggle");
+
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+    themeToggle.textContent = "☀️";
+}
+
+themeToggle.onclick = () => {
+    document.body.classList.toggle("dark");
+    if (document.body.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+        themeToggle.textContent = "☀️";
+    } else {
+        localStorage.setItem("theme", "light");
+        themeToggle.textContent = "🌙";
     }
+};
 
-    function addWord() {
-        const input = document.getElementById("searchWord").value.toLowerCase().trim();
-        if (!input) return;
-
-        if (dictionary[input]) {
-            const newWord = { eng: input, uz: dictionary[input] };
-            words.push(newWord);
-            localStorage.setItem("myWords", JSON.stringify(words));
-            alert("So‘z qo‘shildi!");
-            getRandomWord();
-        } else {
-            alert("Bu so‘z lug‘atda topilmadi");
-        }
-
-        document.getElementById("searchWord").value = "";
-    }
-
-    // Показать первое слово при загрузке
-    getRandomWord();
+/* ===== СТАРТ ===== */
+showCurrentWord();
 </script>
 
 </body>
 </html>
+
 
 
 
