@@ -3,128 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>So‘zLab - Start</title>
+<title>So‘zLab</title>
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #f7f9fc;
-        position: relative;
-    }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f7f9fc;
+}
 
-    body.dark {
-        background: #121212;
-        color: white;
-    }
+body.dark {
+    background: #121212;
+    color: white;
+}
 
-    .logo {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        width: 50px;
-    }
+.top-bar {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    display: flex;
+    gap: 6px;
+}
 
-    .top-bar {
-        position: absolute;
-        top: 15px;
-        right: 20px;
-        display: flex;
-        gap: 6px;
-        align-items: center;
-    }
+.search-input {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
 
-    .search-input {
-        padding: 8px 12px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-    }
+body.dark .search-input {
+    background: #2a2a2a;
+    color: white;
+    border: 1px solid #555;
+}
 
-    body.dark .search-input {
-        background: #2a2a2a;
-        color: white;
-        border: 1px solid #555;
-    }
+.add-btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    background: #34a853;
+    color: white;
+    cursor: pointer;
+}
 
-    .add-btn {
-        padding: 8px 12px;
-        border-radius: 8px;
-        border: none;
-        background-color: #34a853;
-        color: white;
-        cursor: pointer;
-    }
+.theme-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
 
-    .theme-btn {
-        background: none;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
-    }
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
 
-    .container {
-        text-align: center;
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        width: 90%;
-        max-width: 500px;
-    }
+body.dark .container {
+    background: #1f1f1f;
+}
 
-    body.dark .container {
-        background: #1f1f1f;
-    }
+.word-display {
+    font-size: 36px;
+    margin: 20px 0;
+    font-weight: bold;
+}
 
-    .word-display {
-        font-size: 36px;
-        color: #1a73e8;
-        margin: 20px 0;
-        font-weight: bold;
-    }
+.translate {
+    font-size: 22px;
+    color: #34a853;
+    display: none;
+}
 
-    body.dark .word-display {
-        color: white;
-    }
+.action-btn {
+    margin: 10px;
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
 
-    .translate {
-        font-size: 22px;
-        color: #34a853;
-        display: none;
-    }
-
-    .action-btn {
-        margin: 10px;
-        padding: 12px 25px;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        background-color: #fbbc05;
-        color: white;
-    }
-
-    body.dark .action-btn {
-        background: #333;
-    }
-
-    .list-btn {
-        margin-top: 15px;
-        background-color: #1a73e8;
-        color: white;
-        border: none;
-        padding: 10px 25px;
-        border-radius: 8px;
-        cursor: pointer;
-    }
 </style>
 </head>
 
 <body>
-
-<img src="logo.png" class="logo">
 
 <div class="top-bar">
     <input type="text" id="searchWord" class="search-input" placeholder="So‘z qidirish...">
@@ -135,208 +104,104 @@
 <div class="container">
     <h1>So‘zni o‘rganamiz</h1>
 
-    <div class="word-display" id="engWord">So‘z yo‘q</div>
+    <div class="word-display" id="engWord">So‘z</div>
     <div class="translate" id="uzWord"></div>
 
-    <button class="action-btn" onclick="showTranslation()">Tarjimasini ko‘rsat</button>
-    <button class="action-btn" onclick="nextWord()">Keyingi so‘z</button>
-
-    <br>
-    <button class="list-btn" onclick="window.location.href='words.html'">
-        So‘zlar ro‘yxati 📚
-    </button>
+    <button class="action-btn" onclick="showTranslation()">Tarjima</button>
+    <button class="action-btn" onclick="nextWord()">Keyingi</button>
 </div>
 
 <script>
-/* ===== СЛОВАРЬ ===== */
+/* ===== ПОЛНЫЙ СЛОВАРЬ ===== */
 const dictionary = {
-  "above": "ustida",
-  "airport": "aeroport",
-  "armchair": "kreslo",
-  "bank": "bank",
-  "bathroom": "hammom",
-  "bed": "karavot",
-  "bedroom": "yotoqxona",
-  "behind": "orqasida",
-  "between": "orasida",
-  "big": "katta",
-  "booking form": "bron qilish varaqasi",
-  "bookshop": "kitob do‘koni",
-  "building": "bino",
-  "campsite": "lager joyi",
-  "capital": "poytaxt",
-  "carpet": "gilam",
-  "cheap": "arzon",
-  "chemist": "dorixona",
-  "cinema": "kino",
-  "clean": "toza",
-  "cooker": "oshxona plitasi",
-  "dining room": "ovqatlanish xonasi",
-  "dishwasher": "idish yuvish mashinasi",
-  "easy": "oson",
-  "expensive": "qimmat",
-  "fantastic": "ajoyib",
-  "flat": "kvartira",
-  "fridge": "muzlatgich",
-  "furniture": "mebel",
-  "garage": "garaj",
-  "hairdresser’s": "sartaroshxona",
-  "hospital": "shifoxona",
-  "housemate": "birga yashovchi",
-  "in front of": "oldida",
-  "instructions": "ko‘rsatmalar",
-  "kitchen": "oshxona",
-  "launderette": "kir yuvish joyi",
-  "lazy": "dangasa",
-  "library": "kutubxona",
-  "light": "yorug‘",
-  "living room": "mehmonxona",
-  "market": "bozor",
-  "messy": "tartibsiz",
-  "mine": "meniki",
-  "museum": "muzey",
-  "next to": "yonida",
-  "old": "eski",
-  "old-fashioned": "eskicha",
-  "on": "ustida",
-  "opal": "opal",
-  "opposite": "ro‘parasida",
-  "organized": "tartibli",
-  "palace": "saroy",
-  "passport": "pasport",
-  "post office": "pochta bo‘limi",
-  "railway station": "temir yo‘l vokzali",
-  "scarf": "sharf",
-  "shelf": "javon",
-  "sink": "rakovina",
-  "studio flat": "studiya kvartira",
-  "swimming pool": "suzish havzasi",
-  "table": "stol",
-  "temple": "ibodatxona",
-  "terrible": "dahshatli",
-  "theatre": "teatr",
-  "tidy": "ozoda",
-  "toilet": "hojatxona",
-  "tour": "sayohat",
-  "tourist": "sayyoh",
-  "tourist information centre": "sayyohlar axborot markazi",
-  "town": "shahar",
-  "travel": "sayohat qilmoq",
-  "ugly": "xunuk",
-  "under": "ostida",
-  "underground": "yer osti",
-  "visit": "tashrif buyurmoq",
-  "washing machine": "kir yuvish mashinasi",
-  "window": "deraza",
+  "above":"ustida","airport":"aeroport","armchair":"kreslo","bank":"bank",
+  "bathroom":"hammom","bed":"karavot","bedroom":"yotoqxona","behind":"orqasida",
+  "between":"orasida","big":"katta","booking form":"bron qilish varaqasi",
+  "bookshop":"kitob do‘koni","building":"bino","campsite":"lager joyi",
+  "capital":"poytaxt","carpet":"gilam","cheap":"arzon","chemist":"dorixona",
+  "cinema":"kino","clean":"toza","cooker":"oshxona plitasi",
+  "dining room":"ovqatlanish xonasi","dishwasher":"idish yuvish mashinasi",
+  "easy":"oson","expensive":"qimmat","fantastic":"ajoyib","flat":"kvartira",
+  "fridge":"muzlatgich","furniture":"mebel","garage":"garaj",
+  "hairdresser’s":"sartaroshxona","hospital":"shifoxona",
+  "housemate":"birga yashovchi","in front of":"oldida",
+  "instructions":"ko‘rsatmalar","kitchen":"oshxona",
+  "launderette":"kir yuvish joyi","lazy":"dangasa","library":"kutubxona",
+  "light":"yorug‘","living room":"mehmonxona","market":"bozor",
+  "messy":"tartibsiz","mine":"meniki","museum":"muzey",
+  "next to":"yonida","old":"eski","old-fashioned":"eskicha","on":"ustida",
+  "opal":"opal","opposite":"ro‘parasida","organized":"tartibli",
+  "palace":"saroy","passport":"pasport","post office":"pochta bo‘limi",
+  "railway station":"temir yo‘l vokzali","scarf":"sharf","shelf":"javon",
+  "sink":"rakovina","studio flat":"studiya kvartira",
+  "swimming pool":"suzish havzasi","table":"stol","temple":"ibodatxona",
+  "terrible":"dahshatli","theatre":"teatr","tidy":"ozoda",
+  "toilet":"hojatxona","tour":"sayohat","tourist":"sayyoh",
+  "tourist information centre":"sayyohlar axborot markazi",
+  "town":"shahar","travel":"sayohat qilmoq","ugly":"xunuk",
+  "under":"ostida","underground":"yer osti","visit":"tashrif buyurmoq",
+  "washing machine":"kir yuvish mashinasi","window":"deraza",
 
-  "receipt": "chek",
-  "recommend": "tavsiya qilmoq",
-  "relax": "dam olmoq",
-  "return": "qaytarmoq",
-  "sales": "sotuvlar",
-  "serious": "jiddiy",
-  "shopping centre": "savdo markazi",
-  "shorts": "shortik",
-  "simple": "oddiy",
-  "skirt": "yubka",
-  "slow": "sekin",
-  "slowly": "sekin asta",
-  "socks": "paypoq",
-  "spend": "sarflamoq",
-  "strong": "kuchli",
-  "suit": "kostyum",
-  "tie": "galstuk",
-  "trainers": "krossovka",
-  "trousers": "shim",
-  "T-shirt": "futbolka",
-  "umbrella": "zontik",
-  "value": "qiymat",
-  "vending machine": "avtomat apparat",
-  "virtual": "virtual",
-  "wedding": "to‘y",
-  "well": "yaxshi",
-  "worth": "arziydigan",
+  "receipt":"chek","recommend":"tavsiya qilmoq","relax":"dam olmoq",
+  "return":"qaytarmoq","sales":"sotuvlar","serious":"jiddiy",
+  "shopping centre":"savdo markazi","shorts":"shortik","simple":"oddiy",
+  "skirt":"yubka","slow":"sekin","slowly":"sekin asta","socks":"paypoq",
+  "spend":"sarflamoq","strong":"kuchli","suit":"kostyum","tie":"galstuk",
+  "trainers":"krossovka","trousers":"shim","t-shirt":"futbolka",
+  "umbrella":"zontik","value":"qiymat","vending machine":"avtomat apparat",
+  "virtual":"virtual","wedding":"to‘y","well":"yaxshi","worth":"arziydigan",
 
-  "baker's": "novvoyxona",
-  "boring": "zerikarli",
-  "butcher's": "qassobxona",
-  "button": "tugma",
-  "careful": "ehtiyotkor",
-  "carefully": "ehtiyotkorlik bilan",
-  "cash": "naqd pul",
-  "changing room": "kiyinish xonasi",
-  "clear": "aniq",
-  "clearly": "aniq ravishda",
-  "coat": "palto",
-  "correct": "to‘g‘ri",
-  "correctly": "to‘g‘ri ravishda",
-  "dangerously": "xavfli tarzda",
-  "designer shoes": "dizayner oyoq kiyimlari",
-  "disappointed": "hafsalasi pir bo‘lgan",
-  "dress": "ko‘ylak",
-  "gloves": "qo‘lqoplar",
-  "good": "yaxshi",
-  "great": "zo‘r",
-  "hat": "shlyapa",
-  "heavy": "og‘ir",
-  "hoodie": "huddi (kapyushonli sviter)",
-  "information": "ma’lumot",
-  "jacket": "kurtka",
-  "jeans": "jinsi shim",
-  "jewellery": "taqinchoqlar",
-  "meat": "go‘sht",
-  "newsagent's": "gazeta jurnallar do‘koni",
-  "online": "onlayn",
-  "poor": "yomon",
-  "postcard": "pochta kartochkasi",
-  "quiet": "tinch",
-  "quietly": "tinchgina",
-  "rainwater": "yomg‘ir suvi",
-  "reading glasses": "o‘qish ko‘zoynagi"
+  "baker's":"novvoyxona","boring":"zerikarli","butcher's":"qassobxona",
+  "button":"tugma","careful":"ehtiyotkor",
+  "carefully":"ehtiyotkorlik bilan","cash":"naqd pul",
+  "changing room":"kiyinish xonasi","clear":"aniq",
+  "clearly":"aniq ravishda","coat":"palto","correct":"to‘g‘ri",
+  "correctly":"to‘g‘ri ravishda","dangerously":"xavfli tarzda",
+  "designer shoes":"dizayner oyoq kiyimlari",
+  "disappointed":"hafsalasi pir bo‘lgan","dress":"ko‘ylak",
+  "gloves":"qo‘lqoplar","good":"yaxshi","great":"zo‘r","hat":"shlyapa",
+  "heavy":"og‘ir","hoodie":"huddi (kapyushonli sviter)",
+  "information":"ma’lumot","jacket":"kurtka","jeans":"jinsi shim",
+  "jewellery":"taqinchoqlar","meat":"go‘sht",
+  "newsagent's":"gazeta jurnallar do‘koni","online":"onlayn",
+  "poor":"yomon","postcard":"pochta kartochkasi",
+  "quiet":"tinch","quietly":"tinchgina",
+  "rainwater":"yomg‘ir suvi","reading glasses":"o‘qish ko‘zoynagi"
 };
 
-
 /* ===== ДАННЫЕ ===== */
-let words = JSON.parse(localStorage.getItem("myWords")) || [];
-let currentIndex = 0;
+let words = JSON.parse(localStorage.getItem("myWords"));
+if (!words || words.length === 0) {
+    words = Object.entries(dictionary).map(([eng, uz]) => ({ eng, uz }));
+    localStorage.setItem("myWords", JSON.stringify(words));
+}
 
+let currentIndex = 0;
 const engWord = document.getElementById("engWord");
 const uzWord = document.getElementById("uzWord");
 
-/* ===== ПОКАЗ СЛОВА ===== */
 function showCurrentWord() {
-    if (words.length === 0) {
-        engWord.textContent = "So‘z yo‘q";
-        uzWord.style.display = "none";
-        return;
-    }
-    const w = words[currentIndex];
-    engWord.textContent = w.eng;
-    uzWord.textContent = w.uz;
+    engWord.textContent = words[currentIndex].eng;
+    uzWord.textContent = words[currentIndex].uz;
     uzWord.style.display = "none";
 }
 
-/* ===== СЛЕДУЮЩЕЕ СЛОВО (ТОЛЬКО КНОПКА) ===== */
 function nextWord() {
-    if (words.length === 0) return;
     currentIndex = (currentIndex + 1) % words.length;
     showCurrentWord();
 }
 
-/* ===== ПЕРЕВОД ===== */
 function showTranslation() {
     uzWord.style.display = "block";
 }
 
-/* ===== ДОБАВЛЕНИЕ СЛОВА ===== */
-function addWord() {
-    const input = document.getElementById("searchWord").value.toLowerCase().trim();
-    if (!input) return;
+function normalize(text) {
+    return text.toLowerCase().replace(/\s+/g," ").trim();
+}
 
-    if (words.some(w => w.eng === input)) {
-        alert("Bu so‘z allaqachon bor");
-        return;
-    }
+function addWord() {
+    const input = normalize(document.getElementById("searchWord").value);
+    if (!input) return;
 
     if (dictionary[input]) {
         words.push({ eng: input, uz: dictionary[input] });
@@ -346,35 +211,29 @@ function addWord() {
     } else {
         alert("Bu so‘z lug‘atda yo‘q");
     }
-
     document.getElementById("searchWord").value = "";
 }
 
-/* ===== НОЧНОЙ РЕЖИМ ===== */
+/* ===== ТЕМА ===== */
 const themeToggle = document.getElementById("themeToggle");
-
 if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
     themeToggle.textContent = "☀️";
 }
-
 themeToggle.onclick = () => {
     document.body.classList.toggle("dark");
-    if (document.body.classList.contains("dark")) {
-        localStorage.setItem("theme", "dark");
-        themeToggle.textContent = "☀️";
-    } else {
-        localStorage.setItem("theme", "light");
-        themeToggle.textContent = "🌙";
-    }
+    localStorage.setItem("theme",
+        document.body.classList.contains("dark") ? "dark" : "light");
+    themeToggle.textContent =
+        document.body.classList.contains("dark") ? "☀️" : "🌙";
 };
 
-/* ===== СТАРТ ===== */
 showCurrentWord();
 </script>
 
 </body>
 </html>
+
 
 
 
