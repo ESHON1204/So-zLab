@@ -19,6 +19,12 @@
         background-position: center;
         background-repeat: no-repeat;
         padding-top: env(safe-area-inset-top);
+        color: #1f1f1f;
+    }
+
+    body.dark {
+        background-color: #111;
+        color: #f3f3f3;
     }
 
     .header {
@@ -58,6 +64,8 @@
         max-width: 55vw;
         flex: 1 1 140px;
         min-width: 0;
+        background: #fff;
+        color: #111;
     }
 
     .add-btn {
@@ -66,6 +74,16 @@
         border: none;
         background-color: #34a853;
         color: white;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .theme-toggle {
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        background: #fff;
+        color: #111;
         cursor: pointer;
         margin-left: 5px;
     }
@@ -115,6 +133,43 @@
         cursor: pointer;
     }
 
+    body.dark .container {
+        background: rgba(20, 20, 20, 0.85);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    }
+
+    body.dark .search-input {
+        background: #222;
+        color: #f3f3f3;
+        border-color: #444;
+    }
+
+    body.dark .add-btn {
+        background-color: #2e7d32;
+    }
+
+    body.dark .theme-toggle {
+        background: #222;
+        color: #f3f3f3;
+        border-color: #444;
+    }
+
+    body.dark .word-display {
+        color: #8ab4f8;
+    }
+
+    body.dark .translate {
+        color: #81c995;
+    }
+
+    body.dark .action-btn {
+        background-color: #c48b00;
+    }
+
+    body.dark .list-btn {
+        background-color: #1565c0;
+    }
+
     @media (max-width: 480px) {
         body {
             align-items: flex-start;
@@ -140,6 +195,10 @@
             padding: 6px 10px;
         }
 
+        .theme-toggle {
+            padding: 6px 8px;
+        }
+
         .container {
             width: 92%;
         }
@@ -152,6 +211,7 @@
     <img src="logo.png" class="logo" alt="So'zLab">
 
 <div class="top-bar">
+    <button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()">Dark</button>
     <input type="text" id="searchWord" class="search-input" placeholder="So‘z qidirish...">
     <button class="add-btn" onclick="addWord()">Qo‘shish</button>
 </div>
@@ -433,6 +493,30 @@
     };
 
     let words = JSON.parse(localStorage.getItem("myWords")) || [];
+
+    const THEME_KEY = "theme";
+    const themeToggle = document.getElementById("themeToggle");
+
+    function getPreferredTheme() {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+
+    function applyTheme(theme) {
+        document.body.classList.toggle("dark", theme === "dark");
+        if (themeToggle) {
+            themeToggle.textContent = theme === "dark" ? "Light" : "Dark";
+        }
+    }
+
+    function toggleTheme() {
+        const current = document.body.classList.contains("dark") ? "dark" : "light";
+        const next = current === "dark" ? "light" : "dark";
+        localStorage.setItem(THEME_KEY, next);
+        applyTheme(next);
+    }
+
+    const savedTheme = localStorage.getItem(THEME_KEY) || getPreferredTheme();
+    applyTheme(savedTheme);
 
     function getRandomWord() {
         if (words.length === 0) {
