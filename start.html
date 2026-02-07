@@ -5,205 +5,322 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>So‘zLab - Start</title>
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        position: relative;
-        background-image: url('A_digital_vector_illustration_serves_as_the_backgr.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        padding-top: env(safe-area-inset-top);
-        color: #1f1f1f;
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+    --bg-1: #f4f1fb;
+    --bg-2: #e8eef9;
+    --bg-3: #f7f4ef;
+    --card: rgba(255, 255, 255, 0.85);
+    --card-strong: rgba(255, 255, 255, 0.95);
+    --border: rgba(17, 17, 17, 0.08);
+    --text: #151518;
+    --muted: #4b4f5c;
+    --accent: #f4b400;
+    --accent-2: #2dd4bf;
+    --shadow: 0 20px 50px rgba(22, 24, 35, 0.15);
+}
+
+body.dark {
+    --bg-1: #0b0f14;
+    --bg-2: #15192a;
+    --bg-3: #1c1424;
+    --card: rgba(20, 20, 28, 0.86);
+    --card-strong: rgba(30, 30, 42, 0.92);
+    --border: rgba(255, 255, 255, 0.12);
+    --text: #f6f7fb;
+    --muted: #c7c9d6;
+    --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Manrope', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    background:
+        radial-gradient(1100px 650px at 8% 10%, rgba(45, 212, 191, 0.18), transparent 60%),
+        radial-gradient(900px 600px at 90% 20%, rgba(244, 180, 0, 0.22), transparent 55%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2) 45%, var(--bg-3));
+    color: var(--text);
+    padding-top: env(safe-area-inset-top);
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    inset: -50% 10% auto auto;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(244, 180, 0, 0.18), transparent 60%);
+    filter: blur(6px);
+    opacity: 0.8;
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    inset: auto auto -40% -10%;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(45, 212, 191, 0.18), transparent 60%);
+    filter: blur(6px);
+    opacity: 0.8;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
+    z-index: 10;
+    background: var(--card-strong);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    animation: slideIn 0.6s ease;
+}
+
+.logo {
+    width: 44px;
+    height: auto;
+    flex: 0 0 auto;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    min-width: 0;
+    flex-wrap: nowrap;
+}
+
+.search-input {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    width: 220px;
+    max-width: 40vw;
+    flex: 1 1 140px;
+    min-width: 0;
+    background: var(--card);
+    color: var(--text);
+}
+
+.add-btn,
+.theme-toggle,
+.lang-select {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.add-btn {
+    background: linear-gradient(135deg, var(--accent), #ffd36a);
+    color: #1a1a1a;
+    border: none;
+    font-weight: 700;
+}
+
+.theme-toggle {
+    font-weight: 600;
+}
+
+.lang-select {
+    font-weight: 600;
+}
+
+.container {
+    text-align: center;
+    background: var(--card);
+    padding: 36px 28px;
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+    width: min(520px, 92vw);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    animation: floatIn 0.8s ease;
+}
+
+.container h1 {
+    font-family: 'Playfair Display', serif;
+    margin: 8px 0 6px;
+    font-size: clamp(28px, 3.4vw, 36px);
+}
+
+.word-display {
+    font-size: 36px;
+    color: #2a6df4;
+    margin: 18px 0;
+    font-weight: 800;
+}
+
+body.dark .word-display {
+    color: #8ab4f8;
+}
+
+.translate {
+    font-size: 22px;
+    color: #1f8f6a;
+    margin-top: 10px;
+    display: none;
+}
+
+body.dark .translate {
+    color: #81c995;
+}
+
+.action-btn {
+    margin: 10px;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--accent-2), #7cf6e6);
+    color: #102b2a;
+    font-weight: 700;
+}
+
+.list-btn {
+    margin-top: 12px;
+    background: linear-gradient(135deg, #6ea8ff, #8bc3ff);
+    color: #0f1b2d;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.status {
+    position: fixed;
+    top: calc(68px + env(safe-area-inset-top));
+    left: 12px;
+    right: 12px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+    .status.show {
+        opacity: 1;
     }
 
-    body.dark {
-        background-color: #111;
-        color: #f3f3f3;
-    }
-
-    .header {
+    .manual-backdrop {
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: calc(12px + env(safe-area-inset-top)) 12px 12px;
-        z-index: 10;
+        inset: 0;
+        background: rgba(10, 12, 18, 0.4);
+        backdrop-filter: blur(2px);
+        z-index: 15;
     }
 
-    .logo {
-        width: 44px;
-        height: auto;
-        flex: 0 0 auto;
+    .manual-panel {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--card-strong, rgba(255,255,255,0.95));
+        color: var(--text, #111);
+        border: 1px solid var(--border, rgba(0,0,0,0.1));
+        border-radius: 14px;
+        padding: 18px;
+        width: min(360px, 92vw);
+        box-shadow: var(--shadow, 0 20px 50px rgba(0,0,0,0.2));
+        z-index: 16;
     }
 
-    .top-bar {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin-left: auto;
-        flex: 1 1 auto;
-        justify-content: flex-end;
-        min-width: 0;
-        flex-wrap: nowrap;
+    .manual-panel h3 {
+        margin: 0 0 6px 0;
+        font-size: 18px;
     }
 
-    .search-input {
-        padding: 8px 12px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        width: 220px;
-        max-width: 55vw;
-        flex: 1 1 140px;
-        min-width: 0;
-        background: #fff;
-        color: #111;
+    .manual-panel p {
+        margin: 0 0 12px 0;
+        color: var(--muted, #555);
+        font-size: 13px;
     }
 
-    .add-btn {
-        padding: 8px 12px;
-        border-radius: 8px;
-        border: none;
-        background-color: #34a853;
-        color: white;
-        cursor: pointer;
-        margin-left: 5px;
-    }
-
-    .theme-toggle {
+    .manual-input {
+        width: 100%;
         padding: 8px 10px;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        background: #fff;
-        color: #111;
+        border-radius: 10px;
+        border: 1px solid var(--border, rgba(0,0,0,0.12));
+        background: var(--card, #fff);
+        color: var(--text, #111);
+    }
+
+    .manual-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 12px;
+    }
+
+    .manual-btn {
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: none;
+        background: linear-gradient(135deg, var(--accent-2, #2dd4bf), #7cf6e6);
+        color: #102b2a;
         cursor: pointer;
-        margin-left: 5px;
+        font-weight: 700;
     }
 
-    .container {
-        text-align: center;
-        background: rgba(255, 255, 255, 0.85);
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        width: 90%;
-        max-width: 500px;
+    .manual-btn.ghost {
+        background: transparent;
+        color: var(--text, #111);
+        border: 1px solid var(--border, rgba(0,0,0,0.12));
     }
 
-    .word-display {
-        font-size: 36px;
-        color: #1a73e8;
-        margin: 20px 0;
-        font-weight: bold;
-    }
-
-    .translate {
-        font-size: 22px;
-        color: #34a853;
-        margin-top: 10px;
+    .hidden {
         display: none;
     }
 
-    .action-btn {
-        margin: 10px;
-        padding: 12px 25px;
-        font-size: 16px;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        background-color: #fbbc05;
-        color: white;
-    }
+@keyframes floatIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    .list-btn {
-        margin-top: 15px;
-        background-color: #1a73e8;
-        color: white;
-        border: none;
-        padding: 10px 25px;
-        border-radius: 8px;
-        cursor: pointer;
-    }
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    body.dark .container {
-        background: rgba(20, 20, 20, 0.85);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-    }
+@media (max-width: 700px) {
+    .search-input { max-width: 36vw; }
+}
 
-    body.dark .search-input {
-        background: #222;
-        color: #f3f3f3;
-        border-color: #444;
-    }
-
-    body.dark .add-btn {
-        background-color: #2e7d32;
-    }
-
-    body.dark .theme-toggle {
-        background: #222;
-        color: #f3f3f3;
-        border-color: #444;
-    }
-
-    body.dark .word-display {
-        color: #8ab4f8;
-    }
-
-    body.dark .translate {
-        color: #81c995;
-    }
-
-    body.dark .action-btn {
-        background-color: #c48b00;
-    }
-
-    body.dark .list-btn {
-        background-color: #1565c0;
-    }
-
-    @media (max-width: 480px) {
-        body {
-            align-items: flex-start;
-            padding-top: calc(76px + env(safe-area-inset-top));
-        }
-
-        .header {
-            padding: calc(8px + env(safe-area-inset-top)) 8px 8px;
-            gap: 8px;
-        }
-
-        .logo {
-            width: 36px;
-        }
-
-        .search-input {
-            width: 150px;
-            max-width: 56vw;
-            padding: 6px 8px;
-        }
-
-        .add-btn {
-            padding: 6px 10px;
-        }
-
-        .theme-toggle {
-            padding: 6px 8px;
-        }
-
-        .container {
-            width: 92%;
-        }
-    }
-</style>
+@media (max-width: 480px) {
+    body { align-items: flex-start; padding-top: calc(80px + env(safe-area-inset-top)); }
+    .header { padding: calc(10px + env(safe-area-inset-top)) 10px 10px; gap: 8px; }
+    .logo { width: 36px; }
+    .search-input { width: 140px; padding: 6px 8px; }
+    .add-btn, .theme-toggle, .lang-select { padding: 6px 8px; }
+}</style>
 </head>
 <body>
 
@@ -212,10 +329,28 @@
 
 <div class="top-bar">
     <button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()">Dark</button>
+    <select id="langMode" class="lang-select" aria-label="Tarjima yo'nalishi">
+        <option value="auto">Auto</option>
+        <option value="en">EN→UZ</option>
+        <option value="uz">UZ→EN</option>
+    </select>
     <input type="text" id="searchWord" class="search-input" placeholder="So‘z qidirish...">
-    <button class="add-btn" onclick="addWord()">Qo‘shish</button>
+    <button class="add-btn" id="addBtn" onclick="addWord()">Qo‘shish</button>
 </div>
 
+</div>
+
+<div id="status" class="status" aria-live="polite"></div>
+
+<div id="manualBackdrop" class="manual-backdrop hidden"></div>
+<div id="manualPanel" class="manual-panel hidden" role="dialog" aria-modal="true" aria-labelledby="manualTitle">
+    <h3 id="manualTitle">Tarjimani tekshiring</h3>
+    <p id="manualHint">To'g'ri tarjimani kiriting</p>
+    <input type="text" id="manualTranslation" class="manual-input" placeholder="Tarjima">
+    <div class="manual-actions">
+        <button class="manual-btn" id="manualSave" type="button">Saqlash</button>
+        <button class="manual-btn ghost" id="manualCancel" type="button">Bekor</button>
+    </div>
 </div>
 
 <div class="container">
@@ -231,268 +366,25 @@
     <button class="list-btn" onclick="window.location.href='words.html'">So‘zlar ro‘yxati 📚</button>
 </div>
 
+<script src="config.js"></script>
 <script>
-    // Словарь A1/A2 прямо в коде
-    const dictionary = {
-        "about": "haqida",
-        "above": "ustida",
-        "action": "harakat",
-        "activity": "faoliyat",
-        "actor": "aktyor",
-        "add": "qo‘shmoq",
-        "afraid": "qo‘rqqan",
-        "after": "keyin",
-        "again": "yana",
-        "age": "yosh",
-        "air": "havo",
-        "all": "hamma",
-        "also": "shuningdek",
-        "always": "har doim",
-        "am": "menman",
-        "animal": "hayvon",
-        "answer": "javob",
-        "any": "har qanday",
-        "area": "hudud",
-        "arm": "qol",
-        "around": "atrofida",
-        "art": "san’at",
-        "ask": "so‘ramoq",
-        "at": "da",
-        "attention": "diqqat",
-        "aunt": "xola",
-        "away": "yiroq",
-        "baby": "chaqaloq",
-        "back": "orqa",
-        "bad": "yomon",
-        "bag": "sumka",
-        "ball": "to‘p",
-        "bank": "bank",
-        "bar": "bar",
-        "base": "asos",
-        "basic": "asosiy",
-        "basket": "savatcha",
-        "be": "bo‘lmoq",
-        "beautiful": "go‘zal",
-        "because": "chunki",
-        "become": "bo‘lib qolmoq",
-        "bed": "karavat",
-        "before": "oldin",
-        "begin": "boshlamoq",
-        "behind": "orqasida",
-        "believe": "ishonmoq",
-        "below": "quyida",
-        "best": "eng yaxshi",
-        "better": "yaxshiroq",
-        "between": "o‘rtasida",
-        "big": "katta",
-        "bird": "qush",
-        "birthday": "tug‘ilgan kun",
-        "black": "qora",
-        "blue": "ko‘k",
-        "board": "taxta",
-        "body": "tana",
-        "bookstore": "kitob do‘koni",
-        "both": "ikkalasi",
-        "boy": "o‘g‘il bola",
-        "bread": "non",
-        "break": "tanaffus",
-        "bring": "olib kelmoq",
-        "brother": "aka",
-        "brown": "jigar rang",
-        "build": "qurmoq",
-        "bus": "avtobus",
-        "business": "biznes",
-        "buy": "sotib olmoq",
-        "by": "tomonidan",
-        "call": "chaqirmoq",
-        "camera": "kamera",
-        "can": "qila olmoq",
-        "capital": "poytaxt",
-        "carpet": "gilam",
-        "carry": "tashimoq",
-        "center": "markaz",
-        "chair": "stul",
-        "change": "o‘zgartirmoq",
-        "cheap": "arzon",
-        "choose": "tanlamoq",
-        "city": "shahar",
-        "class": "sinf",
-        "classroom": "sinfxona",
-        "clean": "toza",
-        "close": "yaqin",
-        "clothes": "kiyim",
-        "coffee": "qahva",
-        "cold": "sovuq",
-        "come": "kelmoq",
-        "common": "umumiy",
-        "company": "kompaniya",
-        "complete": "to‘liq",
-        "computer": "kompyuter",
-        "cook": "pishirmoq",
-        "cool": "salqin",
-        "corner": "burchak",
-        "correct": "to‘g‘ri",
-        "cost": "narx",
-        "country": "davlat",
-        "course": "kurs",
-        "cover": "qoplamoq",
-        "create": "yaratmoq",
-        "culture": "madaniyat",
-        "cup": "stakan",
-        "dad": "ota",
-        "dance": "raqs",
-        "danger": "xavf",
-        "dark": "qorong‘i",
-        "day": "kun",
-        "dead": "o‘lik",
-        "dear": "aziz",
-        "decide": "qaror qilmoq",
-        "desk": "stol",
-        "difficult": "qiyin",
-        "direction": "yo‘nalish",
-        "dirty": "iflos",
-        "discover": "kashf qilmoq",
-        "do": "qilmoq",
-        "doctor": "shifokor",
-        "door": "eshik",
-        "down": "pastga",
-        "draw": "chizmoq",
-        "dress": "ko‘ylak",
-        "drink": "ichmoq",
-        "drive": "haydamoq",
-        "drop": "tushmoq",
-        "dry": "quruq",
-        "during": "davrida",
-        "each": "har bir",
-        "ear": "quloq",
-        "early": "erta",
-        "earth": "yer",
-        "east": "sharq",
-        "easy": "oson",
-        "eat": "yemoq",
-        "education": "ta’lim",
-        "effect": "ta’sir",
-        "eight": "sakkiz",
-        "either": "yoki",
-        "eleven": "o‘n bir",
-        "else": "boshqa",
-        "empty": "bo‘sh",
-        "end": "oxir",
-        "enjoy": "yoqmoq",
-        "enough": "yetarli",
-        "enter": "kirish",
-        "equal": "teng",
-        "even": "hatto",
-        "ever": "hech qachon",
-        "every": "har",
-        "everyone": "har bir kishi",
-        "everything": "hamma narsa",
-        "example": "misol",
-        "excited": "hayajonli",
-        "exercise": "mashq",
-        "expect": "kutmoq",
-        "expensive": "qimmat",
-        "eye": "ko‘z",
-        "face": "yuz",
-        "fact": "haqiqat",
-        "far": "uzoq",
-        "farm": "ferma",
-        "fast": "tez",
-        "father": "ota",
-        "feel": "his qilmoq",
-        "few": "bir nechta",
-        "find": "topmoq",
-        "fine": "yaxshi",
-        "finger": "barmoq",
-        "finish": "tugatmoq",
-        "fire": "olov",
-        "first": "birinchi",
-        "five": "besh",
-        "floor": "qavat",
-        "flower": "gul",
-        "follow": "ergashmoq",
-        "foot": "oyoq",
-        "for": "uchun",
-        "forget": "unutmoq",
-        "form": "shakl",
-        "four": "to‘rt",
-        "from": "dan",
-        "front": "oldida",
-        "full": "to‘liq",
-        "fun": "qiziqarli",
-        "future": "kelajak",
-        "game": "o‘yin",
-        "garden": "bog‘",
-        "get": "olmoq",
-        "girl": "qiz",
-        "give": "bermoq",
-        "go": "bor/moq",
-        "good": "yaxshi",
-        "green": "yashil",
-        "ground": "yer",
-        "group": "guruh",
-        "grow": "o‘smoq",
-        "guess": "taxmin qilmoq",
-        "gun": "qurol",
-        "gym": "sport zali",
-        "hair": "soch",
-        "half": "yarim",
-        "hand": "qo‘l",
-        "hang": "osmoq",
-        "happy": "baxtli",
-        "hard": "qiyin",
-        "has": "bor",
-        "hat": "shapka",
-        "have": "ega bo‘lmoq",
-        "he": "u",
-        "head": "bosh",
-        "health": "sog‘liq",
-        "hear": "eshitmoq",
-        "heart": "yurak",
-        "heavy": "og‘ir",
-        "help": "yordam",
-        "her": "uning",
-        "here": "bu yer",
-        "hi": "salom",
-        "high": "baland",
-        "him": "uni",
-        "his": "uning",
-        "history": "tarix",
-        "hit": "urmoq",
-        "hold": "ushlamoq",
-        "holiday": "ta’til",
-        "home": "uy",
-        "hope": "umid qilmoq",
-        "hot": "issiq",
-        "hour": "soat",
-        "house": "uy",
-        "how": "qanday",
-        "hundred": "yuz",
-        "hungry": "och",
-        "idea": "g‘oya",
-        "important": "muqim",
-        "inch": "dyuym",
-        "information": "ma’lumot",
-        "inside": "ichida",
-        "interest": "qiziqish",
-        "interesting": "qiziqarli",
-        "into": "ichiga",
-        "is": "bo‘lmoq",
-        "it": "bu",
-        "job": "ish",
-        "join": "qo‘shilmoq",
-        "juice": "sharbat",
-        "jump": "sakramoq",
-        "just": "faqat",
-        "keep": "saqlamoq",
-        "key": "kalit",
-        "kind": "mehribon",
-        "king": "qirol",
-        "kitchen": "oshxona",
-        "know": "bilmoq"
-    };
 
     let words = JSON.parse(localStorage.getItem("myWords")) || [];
+    const API_EMAIL = typeof window.TRANSLATE_API_EMAIL === "string" ? window.TRANSLATE_API_EMAIL : "";
+    const TRANSLATE_API_URL = "https://api.mymemory.translated.net/get";
+    const searchInput = document.getElementById("searchWord");
+    const addBtn = document.getElementById("addBtn");
+    const statusEl = document.getElementById("status");
+    const langMode = document.getElementById("langMode");
+    const manualPanel = document.getElementById("manualPanel");
+    const manualBackdrop = document.getElementById("manualBackdrop");
+    const manualInput = document.getElementById("manualTranslation");
+    const manualSave = document.getElementById("manualSave");
+    const manualCancel = document.getElementById("manualCancel");
+    const manualHint = document.getElementById("manualHint");
+
+    let pendingInput = "";
+    let pendingLangpair = "en|uz";
 
     const THEME_KEY = "theme";
     const themeToggle = document.getElementById("themeToggle");
@@ -506,6 +398,217 @@
         if (themeToggle) {
             themeToggle.textContent = theme === "dark" ? "Light" : "Dark";
         }
+    }
+
+    let statusTimer = null;
+
+    function setStatus(message) {
+        if (!statusEl) return;
+        statusEl.textContent = message || "";
+        statusEl.classList.toggle("show", Boolean(message));
+        if (statusTimer) {
+            clearTimeout(statusTimer);
+            statusTimer = null;
+        }
+        if (message) {
+            statusTimer = setTimeout(() => {
+                statusEl.classList.remove("show");
+                statusEl.textContent = "";
+            }, 2000);
+        }
+    }
+
+    function setLoading(isLoading) {
+        if (addBtn) {
+            addBtn.disabled = isLoading;
+            addBtn.textContent = isLoading ? "Kutilmoqda..." : "Qo'shish";
+        }
+        if (searchInput) {
+            searchInput.disabled = isLoading;
+        }
+    }
+
+    function openManualPanel(input, langpair, suggested) {
+        pendingInput = input;
+        pendingLangpair = langpair;
+        if (manualInput) {
+            manualInput.value = suggested || "";
+        }
+        if (manualHint) {
+            manualHint.textContent = langpair === "en|uz"
+                ? "Inglizcha → Uzbekcha tarjima kiriting"
+                : "Uzbekcha → Inglizcha tarjima kiriting";
+        }
+        manualPanel.classList.remove("hidden");
+        manualBackdrop.classList.remove("hidden");
+        if (manualInput) {
+            manualInput.focus();
+        }
+    }
+
+    function closeManualPanel() {
+        manualPanel.classList.add("hidden");
+        manualBackdrop.classList.add("hidden");
+        pendingInput = "";
+    }
+
+    if (manualSave) {
+        manualSave.addEventListener("click", saveManualTranslation);
+    }
+    if (manualCancel) {
+        manualCancel.addEventListener("click", closeManualPanel);
+    }
+    if (manualBackdrop) {
+        manualBackdrop.addEventListener("click", closeManualPanel);
+    }
+    if (manualInput) {
+        manualInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                saveManualTranslation();
+            }
+        });
+    }
+
+    function normalizeInput(text) {
+        return text
+            .replace(/[’‘‛`´]/g, "'")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+    function hasCyrillic(text) {
+        return /[\u0400-\u04FF]/.test(text);
+    }
+
+    function isMostlyLatin(text) {
+        return /[A-Za-z]/.test(text);
+    }
+
+    function isLikelyUzbekLatin(text) {
+        const t = text.toLowerCase();
+        if (/[ʻʼ‘’]/.test(t)) return true;
+        if (/(o'|g')/.test(t)) return true;
+        if (/\b(sh|ch|ng)\b/.test(t)) return true;
+        if (/[áéíóúàèìòùâêîôûäëïöü]/.test(t)) return true;
+        return false;
+    }
+
+    function isAllowedText(text) {
+        if (!text) return false;
+        if (hasCyrillic(text)) return false;
+        return !/[^A-Za-z\u0100-\u024F\u1E00-\u1EFF\u02BB\u02BC\u2018\u2019\u201A\u201B\u2032\u00B4' \-]/.test(text);
+    }
+
+    function pickLangpair(text) {
+        const mode = langMode ? langMode.value : "auto";
+        if (mode === "en") return "en|uz";
+        if (mode === "uz") return "uz|en";
+        return isLikelyUzbekLatin(text) ? "uz|en" : "en|uz";
+    }
+
+    function assignByLangpair(langpair, input, translated) {
+        if (langpair === "en|uz") {
+            return { eng: input, uz: translated };
+        }
+        return { eng: translated, uz: input };
+    }
+
+    function isBadTranslation(input, translated, langpair, match) {
+        if (!translated) return true;
+        const a = input.toLowerCase();
+        const b = translated.toLowerCase();
+        if (a === b) return true;
+        if (typeof match === 'number' && match < 0.85) return true;
+        if (langpair === 'en|uz') {
+            if (hasCyrillic(translated)) return true;
+        }
+        if (langpair === 'uz|en') {
+            if (!isMostlyLatin(translated) || hasCyrillic(translated)) return true;
+        }
+        return false;
+    }
+
+    function isAllowedTranslation(text, langpair) {
+        if (!isAllowedText(text)) return false;
+        if (hasCyrillic(text)) return false;
+        if (langpair === "uz|en") {
+            return isMostlyLatin(text);
+        }
+        return true;
+    }
+
+    function saveManualTranslation() {
+        const manual = normalizeInput(manualInput ? manualInput.value : "");
+        if (!manual) {
+            alert("Tarjima kiriting");
+            return;
+        }
+        if (!isAllowedTranslation(manual, pendingLangpair)) {
+            alert("Tarjima noto'g'ri formatda");
+            return;
+        }
+
+        const newWord = assignByLangpair(pendingLangpair, pendingInput, manual);
+        const engLower = newWord.eng.toLowerCase();
+        const uzLower = newWord.uz.toLowerCase();
+        if (words.some(w => w.eng.toLowerCase() === engLower && w.uz.toLowerCase() === uzLower)) {
+            alert("Bu so'z allaqachon ro'yxatda bor");
+            closeManualPanel();
+            return;
+        }
+
+        words.push(newWord);
+        localStorage.setItem("myWords", JSON.stringify(words));
+        alert("So'z qo'shildi!");
+        setStatus("So'z qo'shildi");
+        getRandomWord();
+        closeManualPanel();
+        if (searchInput) {
+            searchInput.value = "";
+        }
+    }
+    async function fetchTranslation(q, langpair) {
+        const params = new URLSearchParams({
+            q,
+            langpair
+        });
+
+        if (API_EMAIL) {
+            params.append("de", API_EMAIL);
+        }
+
+        const response = await fetch(`${TRANSLATE_API_URL}?${params.toString()}`);
+        const data = await response.json();
+
+        const candidates = [];
+        const primaryText = data && data.responseData && data.responseData.translatedText
+            ? data.responseData.translatedText.trim()
+            : "";
+        const primaryMatch = data && data.responseData && data.responseData.match !== undefined
+            ? Number(data.responseData.match)
+            : 0;
+        if (primaryText) {
+            candidates.push({ text: primaryText, match: primaryMatch });
+        }
+
+        if (data && Array.isArray(data.matches)) {
+            data.matches.forEach(item => {
+                if (item && item.translation) {
+                    const t = String(item.translation).trim();
+                    const m = item.match !== undefined ? Number(item.match) : 0;
+                    if (t) {
+                        candidates.push({ text: t, match: m });
+                    }
+                }
+            });
+        }
+
+        if (candidates.length === 0) {
+            return { text: "", match: 0 };
+        }
+
+        candidates.sort((a, b) => b.match - a.match);
+        return candidates[0];
     }
 
     function toggleTheme() {
@@ -539,29 +642,86 @@
         getRandomWord();
     }
 
-    function addWord() {
-        const input = document.getElementById("searchWord").value.toLowerCase().trim();
+    async function addWord() {
+        const raw = searchInput ? searchInput.value : "";
+        const input = normalizeInput(raw);
         if (!input) return;
 
-        if (dictionary[input]) {
-            const newWord = { eng: input, uz: dictionary[input] };
-            words.push(newWord);
-            localStorage.setItem("myWords", JSON.stringify(words));
-            alert("So‘z qo‘shildi!");
-            getRandomWord();
-        } else {
-            alert("Bu so‘z lug‘atda topilmadi");
+        if (!isAllowedText(input)) {
+            alert("Faqat inglizcha yoki o'zbekcha (lotin) so'zlar kiriting");
+            if (searchInput) {
+                searchInput.value = "";
+            }
+            return;
         }
 
-        document.getElementById("searchWord").value = "";
+        const normalized = input.toLowerCase();
+        if (words.some(w => w.eng.toLowerCase() === normalized || w.uz.toLowerCase() === normalized)) {
+            alert("Bu so'z allaqachon ro'yxatda bor");
+            if (searchInput) {
+                searchInput.value = "";
+            }
+            return;
+        }
+
+        try {
+            setLoading(true);
+            setStatus("Tarjima izlanmoqda...");
+
+            let translated = "";
+            let langpair = pickLangpair(input);
+            let chosenMatch = 0;
+            const mode = langMode ? langMode.value : "auto";
+
+            if (mode === "auto") {
+                const resEnUz = await fetchTranslation(input, "en|uz");
+                const resUzEn = await fetchTranslation(input, "uz|en");
+
+                const scoreEn = isBadTranslation(input, resEnUz.text, "en|uz", resEnUz.match) ? -1 : resEnUz.match;
+                const scoreUz = isBadTranslation(input, resUzEn.text, "uz|en", resUzEn.match) ? -1 : resUzEn.match;
+
+                if (scoreUz > scoreEn || (scoreUz === scoreEn && isLikelyUzbekLatin(input))) {
+                    langpair = "uz|en";
+                    translated = resUzEn.text;
+                    chosenMatch = resUzEn.match;
+                } else {
+                    langpair = "en|uz";
+                    translated = resEnUz.text;
+                    chosenMatch = resEnUz.match;
+                }
+            } else {
+                const res = await fetchTranslation(input, langpair);
+                translated = res.text;
+                chosenMatch = res.match;
+                if (isBadTranslation(input, translated, langpair, res.match)) {
+                    translated = "";
+                }
+            }
+
+            if (isBadTranslation(input, translated, langpair, chosenMatch)) {
+                openManualPanel(input, langpair, "");
+            } else {
+                openManualPanel(input, langpair, translated);
+            }
+        } catch (err) {
+            alert("Online tarjima xatosi. Internetni tekshiring.");
+            setStatus("Online tarjima xatosi");
+        } finally {
+            setLoading(false);
+            if (searchInput) {
+                searchInput.value = "";
+            }
+        }
     }
+
 
     // Показать первое слово при загрузке
     getRandomWord();
 </script>
-
 </body>
 </html>
+
+
 
 
 
