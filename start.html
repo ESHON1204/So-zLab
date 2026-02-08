@@ -133,6 +133,28 @@ body::after {
     cursor: pointer;
 }
 
+.speak-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px auto 4px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.speak-icon {
+    font-size: 16px;
+}
+
+.speak-text {
+    font-size: 13px;
+}
+
 .add-btn {
     background: linear-gradient(135deg, var(--accent), #ffd36a);
     color: #1a1a1a;
@@ -320,6 +342,7 @@ body.dark .translate {
     .logo { width: 36px; }
     .search-input { width: 140px; padding: 6px 8px; }
     .add-btn, .theme-toggle, .lang-select { padding: 6px 8px; }
+    .speak-btn { padding: 6px 10px; }
 }</style>
 </head>
 <body>
@@ -357,6 +380,10 @@ body.dark .translate {
     <h1>So‘zni o‘rganamiz</h1>
 
     <div class="word-display" id="engWord">hello</div>
+    <button class="speak-btn" id="speakBtn" type="button" title="So'zni eshiting">
+        <span class="speak-icon">🔈</span>
+        <span class="speak-text">Talaffuz</span>
+    </button>
     <div class="translate" id="uzWord">salom</div>
 
     <button class="action-btn" onclick="showTranslation()">Tarjimasini ko‘rsat</button>
@@ -376,6 +403,7 @@ body.dark .translate {
     const addBtn = document.getElementById("addBtn");
     const statusEl = document.getElementById("status");
     const langMode = document.getElementById("langMode");
+    const speakBtn = document.getElementById("speakBtn");
     const manualPanel = document.getElementById("manualPanel");
     const manualBackdrop = document.getElementById("manualBackdrop");
     const manualInput = document.getElementById("manualTranslation");
@@ -634,12 +662,32 @@ body.dark .translate {
         document.getElementById("uzWord").style.display = "none";
     }
 
+    function speakCurrentWord() {
+        if (!('speechSynthesis' in window)) {
+            alert("Brauzerda audio qo‘llab-quvvatlanmaydi");
+            return;
+        }
+        const text = document.getElementById("engWord").textContent || "";
+        if (!text) return;
+
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = "en-US";
+        utter.rate = 0.9;
+        utter.pitch = 1.0;
+        window.speechSynthesis.speak(utter);
+    }
+
     function showTranslation() {
         document.getElementById("uzWord").style.display = "block";
     }
 
     function nextWord() {
         getRandomWord();
+    }
+
+    if (speakBtn) {
+        speakBtn.addEventListener("click", speakCurrentWord);
     }
 
     async function addWord() {
@@ -720,6 +768,7 @@ body.dark .translate {
 </script>
 </body>
 </html>
+
 
 
 
